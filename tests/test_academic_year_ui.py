@@ -393,9 +393,17 @@ class AcademicYearUITests(unittest.TestCase):
         mock_message.assert_called_once()
 
     @patch(
+        "ui.academic_years.academic_year_list.get_academic_years",
+        return_value=[]
+    )
+    @patch(
         "ui.academic_years.academic_year_list.messagebox.showwarning"
     )
-    def test_12_reject_action_without_selection(self, mock_warning):
+    def test_12_reject_action_without_selection(
+        self,
+        mock_warning,
+        mock_get
+    ):
         list_frame = AcademicYearListFrame(
             self.frame,
             user=self.user,
@@ -409,6 +417,10 @@ class AcademicYearUITests(unittest.TestCase):
         )
 
         mock_warning.assert_called_once()
+        mock_get.assert_called_once_with(
+            "",
+            actor_user_id=self.user["id"]
+        )
 
 
 

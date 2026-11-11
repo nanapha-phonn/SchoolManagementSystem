@@ -249,7 +249,15 @@ class ClassUITests(unittest.TestCase):
         on_edit.assert_called_once_with(101)
 
     @patch("ui.classes.class_list.messagebox.showwarning")
-    def test_09_reject_edit_without_selection(self, mock_warning):
+    @patch(
+        "ui.classes.class_list.get_classes",
+        return_value=[]
+    )
+    def test_09_reject_edit_without_selection(
+        self,
+        mock_get,
+        mock_warning
+    ):
         list_frame = ClassListFrame(
             self.frame,
             user=self.user,
@@ -257,12 +265,14 @@ class ClassUITests(unittest.TestCase):
             on_edit=Mock()
         )
         list_frame.pack(fill="both", expand=True)
-
         self.assertIsNone(
             list_frame.get_selected_class_id()
         )
-
         mock_warning.assert_called_once()
+        mock_get.assert_called_once_with(
+            "",
+            actor_user_id=self.user["id"]
+        )
 
 
 if __name__ == "__main__":
