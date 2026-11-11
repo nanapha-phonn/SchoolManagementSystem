@@ -1,0 +1,1 @@
+"""Section management user interface."""

@@ -1,0 +1,55 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+.venv*/
+venv/
+env/
+ENV/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# IDE and editor settings
+.vscode/
+.idea/
+
+# SQLite databases and sidecar files
+*.db
+*.db-*
+*.sqlite
+*.sqlite-*
+*.sqlite3
+*.sqlite3-*
+
+# Uploaded documents and private application data
+/data/documents/
+
+# Local backups
+/backups/
+
+# Generated receipts
+RCPT-*.txt
+
+# Development snapshots and temporary source backups
+*.bak
+*.before*
+*_before_*.py
+
+# Logs
+*.log
+
+# Test and coverage output
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Operating system files
+.DS_Store
+Thumbs.db
