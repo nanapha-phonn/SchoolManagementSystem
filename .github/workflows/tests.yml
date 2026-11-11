@@ -1,0 +1,52 @@
+name: Automated Tests
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Ubuntu 22.04 / Python 3.10
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends \
+            python3-venv \
+            python3-tk \
+            xvfb
+
+      - name: Verify Python and Tkinter
+        run: |
+          python3 --version
+          python3 -c "import tkinter; print('Tkinter:', tkinter.TkVersion)"
+          command -v xvfb-run
+
+      - name: Create virtual environment
+        run: |
+          python3 -m venv .venv
+
+      - name: Install Python dependencies
+        run: |
+          .venv/bin/python -m pip install --upgrade pip
+          .venv/bin/python -m pip install -r requirements.txt
+
+      - name: Run automated tests
+        run: |
+          xvfb-run -a .venv/bin/python -m unittest discover -s tests -v

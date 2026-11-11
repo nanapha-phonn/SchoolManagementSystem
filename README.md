@@ -107,7 +107,7 @@ Install Python 3.10 or newer and ensure the Python installation includes Tcl/Tk 
 Open PowerShell in the project directory:
 
 ```powershell
-py -3.10 -m venv .venv
+py -3 -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
@@ -164,11 +164,10 @@ The application has implemented its core management modules, document management
 - Administrator creation, login, and dashboard startup verified.
 - Fresh-install testing completed on Ubuntu with Python 3.10.12.
 
-### Remaining Release Work
+### Platform Verification
 
-- Windows compatibility testing.
-- Final repository and staged-file review.
-- GitHub publication.
+- Ubuntu / Python 3.10.12: fresh-install and 922-test suite passed.
+- Windows: installation and runtime verification remain pending.
 
 ## License
 
