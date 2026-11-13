@@ -27,6 +27,12 @@ class StudentReportCardUITests(unittest.TestCase):
         self.frame.pack(fill="both", expand=True)
 
         self.report = {
+            "school": {
+                "name": "Demo International School",
+                "address": "Phnom Penh, Cambodia",
+                "phone": "+855 12 345 678",
+                "email": "info@demo-school.example",
+            },
             "student": {
                 "id": 1,
                 "admission_no": "ST001",
@@ -270,6 +276,16 @@ class StudentReportCardUITests(unittest.TestCase):
             )
 
             empty_screen.destroy()
+
+    def test_11_display_school_profile(self):
+        self.assertEqual(
+            self.screen.school_name_label.cget("text"),
+            "Demo International School",
+        )
+        contact = self.screen.school_contact_label.cget("text")
+        self.assertIn("Phnom Penh, Cambodia", contact)
+        self.assertIn("+855 12 345 678", contact)
+        self.assertIn("info@demo-school.example", contact)
 
 
 if __name__ == "__main__":

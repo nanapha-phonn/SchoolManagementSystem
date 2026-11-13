@@ -53,6 +53,35 @@ class StudentReportCardFrame(ttk.Frame):
             command=self.go_back,
         ).pack(side="right", padx=5)
 
+        school = self.report.get("school") or {}
+        self.school_name_label = None
+        self.school_contact_label = None
+        if school:
+            school_frame = ttk.Frame(self)
+            school_frame.pack(fill="x", pady=(0, 12))
+            self.school_name_label = ttk.Label(
+                school_frame,
+                text=school.get("name") or "School",
+                font=("Segoe UI", 16, "bold"),
+            )
+            self.school_name_label.pack(anchor="w")
+            contact_details = [
+                school.get("address"),
+                school.get("phone"),
+                school.get("email"),
+            ]
+            contact_text = " | ".join(
+                value.strip()
+                for value in contact_details
+                if isinstance(value, str) and value.strip()
+            )
+            self.school_contact_label = ttk.Label(
+                school_frame,
+                text=contact_text,
+                foreground="#64748B",
+            )
+            self.school_contact_label.pack(anchor="w")
+
         student_frame = ttk.LabelFrame(
             self,
             text="Student Information",

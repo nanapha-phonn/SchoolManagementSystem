@@ -52,6 +52,7 @@ class TestPermissionService(unittest.TestCase):
         self.assertIn("documents.archive", PERMISSIONS)
         self.assertIn("users.manage", PERMISSIONS)
         self.assertIn("payroll.manage", PERMISSIONS)
+        self.assertIn("school.profile.view", PERMISSIONS)
         self.assertIn("system.manage", PERMISSIONS)
 
     def test_admin_has_dashboard_permission(self):
@@ -73,6 +74,7 @@ class TestPermissionService(unittest.TestCase):
             "fees.manage",
             "documents.view",
             "documents.manage",
+            "school.profile.view",
         ]
 
         for permission in permissions:

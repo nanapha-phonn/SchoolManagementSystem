@@ -82,7 +82,9 @@ class TeacherSubjectAssignmentListFrame(ttk.Frame):
                     section["id"]
                 )
 
-            for year in get_academic_years():
+            for year in get_academic_years(
+                actor_user_id=self.user["id"]
+            ):
                 label = (
                     year["name"]
                     + (

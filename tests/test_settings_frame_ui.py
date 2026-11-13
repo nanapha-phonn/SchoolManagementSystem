@@ -46,6 +46,14 @@ class SettingsFrameUITests(unittest.TestCase):
         }
 
         self.on_restored = Mock()
+        self.school_profile_patch = patch(
+            "ui.settings.school_profile_section.get_school_profile",
+            return_value=None,
+        )
+        self.mock_get_school_profile = (
+            self.school_profile_patch.start()
+        )
+        self.addCleanup(self.school_profile_patch.stop)
 
     def tearDown(self):
         for child in self.container.winfo_children():

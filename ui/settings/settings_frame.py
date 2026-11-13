@@ -7,6 +7,7 @@ from services.backup_service import (
     create_backup as create_backup_service,
     restore_backup as restore_backup_service,
 )
+from ui.settings.school_profile_section import SchoolProfileSection
 
 
 class SettingsFrame(ttk.Frame):
@@ -39,6 +40,15 @@ class SettingsFrame(ttk.Frame):
             text="Application administration and data protection.",
             foreground="#64748B",
         ).pack(anchor="w", pady=(4, 20))
+
+        school_profile_section = SchoolProfileSection(
+            self,
+            user=self.user,
+        )
+        school_profile_section.pack(
+            fill="x",
+            pady=(0, 16),
+        )
 
         backup_section = ttk.LabelFrame(
             self,

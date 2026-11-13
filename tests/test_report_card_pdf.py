@@ -1,6 +1,7 @@
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from ui.student_results.report_card_pdf import (
     export_student_report_card_pdf,
@@ -104,6 +105,29 @@ class ReportCardPDFTests(unittest.TestCase):
                     Path(temp_dir) / "invalid.pdf",
                     report,
                 )
+
+    def test_05_include_school_profile_in_pdf_content(self):
+        report = self.sample_report()
+        report["school"] = {
+            "name": "Demo International School",
+            "address": "Phnom Penh, Cambodia",
+            "phone": "+855 12 345 678",
+            "email": "info@demo-school.example",
+        }
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            path = Path(temp_dir) / "school_report.pdf"
+            with patch(
+                "ui.student_results.report_card_pdf.export_text_pdf"
+            ) as mock_export:
+                export_student_report_card_pdf(path, report)
+
+            content = mock_export.call_args.args[2]
+            self.assertIn("Demo International School", content)
+            self.assertIn("Phnom Penh, Cambodia", content)
+            self.assertIn("+855 12 345 678", content)
+            self.assertIn("info@demo-school.example", content)
+            self.assertIn("Test Student", content)
 
 
 if __name__ == "__main__":
