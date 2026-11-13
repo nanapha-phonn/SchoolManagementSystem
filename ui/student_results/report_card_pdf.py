@@ -23,7 +23,27 @@ def export_student_report_card_pdf(file_path, report):
     if not assessment.get("name"):
         raise ValueError("Assessment period information is missing.")
 
-    lines = [
+    school = report.get("school") or {}
+    lines = []
+    if school:
+        school_name = school.get("name")
+        if school_name:
+            lines.append(str(school_name))
+        contact_details = [
+            school.get("address"),
+            school.get("phone"),
+            school.get("email"),
+        ]
+        contact_text = " | ".join(
+            str(value).strip()
+            for value in contact_details
+            if isinstance(value, str) and value.strip()
+        )
+        if contact_text:
+            lines.append(contact_text)
+        if school_name or contact_text:
+            lines.append("")
+    lines.extend([
         f"Student Name: {student.get('full_name', '-')}",
         f"Admission Number: {student.get('admission_no', '-')}",
         f"Class: {class_info.get('name', '-')}",
@@ -40,7 +60,7 @@ def export_student_report_card_pdf(file_path, report):
         "=" * 65,
         "SUBJECT RESULTS",
         "=" * 65,
-    ]
+    ])
 
     if not subjects:
         lines.append("No subject results have been recorded.")

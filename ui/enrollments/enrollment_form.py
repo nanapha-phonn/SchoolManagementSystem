@@ -109,7 +109,9 @@ class EnrollmentForm(ttk.Frame):
                 self.student_id_by_label[label] = student["id"]
                 self.student_label_by_id[student["id"]] = label
 
-            academic_years = get_academic_years()
+            academic_years = get_academic_years(
+                actor_user_id=self.user["id"]
+            )
 
             self.year_id_by_label.clear()
             self.year_label_by_id.clear()

@@ -102,7 +102,9 @@ class TeacherSubjectAssignmentForm(ttk.Frame):
 
                 self.section_id_by_label[label] = section_id
 
-            academic_years = get_academic_years()
+            academic_years = get_academic_years(
+                actor_user_id=self.user["id"]
+            )
 
             for year in academic_years:
                 year_id = int(year["id"])

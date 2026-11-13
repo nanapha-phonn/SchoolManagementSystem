@@ -65,6 +65,19 @@ def get_student_report_card(enrollment_id, assessment_period_id):
     )
 
     with closing(get_connection()) as connection:
+        school_rows = connection.execute("""
+            SELECT id, name, address, phone, email
+            FROM schools
+            ORDER BY id
+        """).fetchall()
+        if len(school_rows) > 1:
+            raise ValueError(
+                "Multiple school profiles exist. "
+                "This version supports one school profile."
+            )
+        school_profile = (
+            dict(school_rows[0]) if school_rows else None
+        )
 
         enrollment = connection.execute("""
             SELECT
@@ -237,6 +250,8 @@ def get_student_report_card(enrollment_id, assessment_period_id):
             }
 
         return {
+            "school": school_profile,
+
             "student": {
                 "id": enrollment["student_id"],
                 "admission_no": enrollment["admission_no"],

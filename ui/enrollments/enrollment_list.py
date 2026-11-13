@@ -225,7 +225,9 @@ class EnrollmentListFrame(ttk.Frame):
 
             year_labels = [self.ALL_YEARS]
 
-            for year in get_academic_years():
+            for year in get_academic_years(
+                actor_user_id=self.user["id"]
+            ):
                 label = f'{year["id"]} - {year["name"]}'
                 year_labels.append(label)
                 self.year_id_by_label[label] = year["id"]

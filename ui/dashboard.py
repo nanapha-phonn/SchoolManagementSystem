@@ -1,8 +1,10 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 
+from config.settings import APP_TITLE
 from services.dashboard_service import get_dashboard_summary
 from services.permission_service import require_permission
+from services.school_profile_service import get_school_profile
 from services.user_service import get_user
 from services.student_service import get_student
 from ui.students.student_form import StudentForm
@@ -121,8 +123,9 @@ class DashboardWindow(tk.Toplevel):
 
         self.user = user
         self.on_logout = on_logout
+        self.brand_title = APP_TITLE
 
-        self.title("School Management System - Dashboard")
+        self.title(f"{self.brand_title} - Dashboard")
         self.geometry("1150x720")
         self.minsize(950, 600)
         self.configure(bg="#F3F5F9")
@@ -195,13 +198,14 @@ class DashboardWindow(tk.Toplevel):
         header.pack(side="top", fill="x")
         header.pack_propagate(False)
 
-        tk.Label(
+        self.school_name_label = tk.Label(
             header,
-            text="SCHOOL MANAGEMENT SYSTEM",
+            text=self.brand_title.upper(),
             font=("Segoe UI", 15, "bold"),
             bg="white",
             fg="#172033"
-        ).pack(side="left", padx=25)
+        )
+        self.school_name_label.pack(side="left", padx=25)
 
         user_frame = tk.Frame(header, bg="white")
         user_frame.pack(side="right", padx=25)
@@ -223,6 +227,28 @@ class DashboardWindow(tk.Toplevel):
             padx=8,
             pady=5
         ).pack(side="left")
+
+    # --------------------------------------------------
+    # SCHOOL BRANDING
+    # --------------------------------------------------
+
+    def refresh_school_branding(self):
+        try:
+            profile = get_school_profile(
+                actor_user_id=self.user["id"],
+            )
+            self.brand_title = (
+                profile["name"]
+                if profile and profile.get("name")
+                else APP_TITLE
+            )
+        except Exception:
+            self.brand_title = APP_TITLE
+        self.title(f"{self.brand_title} - Dashboard")
+        if hasattr(self, "school_name_label"):
+            self.school_name_label.configure(
+                text=self.brand_title.upper()
+            )
 
     # --------------------------------------------------
     # SIDEBAR
@@ -422,6 +448,7 @@ class DashboardWindow(tk.Toplevel):
     # --------------------------------------------------
 
     def show_dashboard(self):
+        self.refresh_school_branding()
         self.clear_content()
 
         tk.Label(

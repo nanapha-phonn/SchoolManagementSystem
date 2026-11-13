@@ -19,6 +19,7 @@ PERMISSIONS = {
     "payroll.manage": {"admin"},
     "payroll.reports.view": {"admin"},
     "users.manage": {"admin"},
+    "school.profile.view": {"admin", "staff"},
     "system.manage": {"admin"},
 }
 

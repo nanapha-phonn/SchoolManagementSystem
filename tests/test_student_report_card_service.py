@@ -339,6 +339,48 @@ class StudentReportCardServiceTests(unittest.TestCase):
         self.assertEqual(integrity, "ok")
         self.assertEqual(foreign_keys, [])
 
+    def test_11_report_card_includes_school_profile(self):
+        self.connection.execute("""
+            INSERT INTO schools (name, address, phone, email)
+            VALUES (
+                'Demo International School',
+                'Phnom Penh, Cambodia',
+                '+855 12 345 678',
+                'info@demo-school.example'
+            )
+        """)
+        self.connection.commit()
+
+        report = get_student_report_card(
+            self.enrollment_id,
+            self.period_id,
+        )
+
+        self.assertEqual(
+            report["school"]["name"],
+            "Demo International School",
+        )
+        self.assertEqual(
+            report["school"]["address"],
+            "Phnom Penh, Cambodia",
+        )
+        self.assertEqual(
+            report["school"]["phone"],
+            "+855 12 345 678",
+        )
+        self.assertEqual(
+            report["school"]["email"],
+            "info@demo-school.example",
+        )
+
+    def test_12_report_card_without_school_profile(self):
+        report = get_student_report_card(
+            self.enrollment_id,
+            self.period_id,
+        )
+
+        self.assertIsNone(report["school"])
+
 
 if __name__ == "__main__":
     unittest.main()

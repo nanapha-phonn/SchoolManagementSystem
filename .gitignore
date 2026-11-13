@@ -27,8 +27,8 @@ ENV/
 *.sqlite3
 *.sqlite3-*
 
-# Uploaded documents and private application data
-/data/documents/
+# Private application data and runtime files
+/data/
 
 # Local backups
 /backups/
